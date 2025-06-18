@@ -14,42 +14,71 @@
             max-width: 600px;
         }
         #image-preview {
-            max-width: 100%;
-            height: auto;
             border: 1px solid #ddd;
             border-radius: 4px;
             padding: 5px;
-            margin-top: 20px;
         }
         .result-box {
             font-size: 1.5rem;
             font-weight: bold;
-            margin-top: 20px;
+        }
+        #drawing-canvas {
+            cursor: crosshair;
         }
     </style>
 </head>
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Handwritten Character Recognition</h1>
-        <p class="text-center text-muted">Upload an image of a single handwritten character (A-Z, a-z, 0-9).</p>
+        <p class="text-center text-muted">Upload an image or draw a single character (A-Z, a-z, 0-9).</p>
         
         <div class="card p-4 mt-4">
-            <div class="mb-3">
-                <label for="image-upload" class="form-label">1. Choose an Image (PNG, JPG)</label>
-                <input class="form-control" type="file" id="image-upload" accept="image/png, image/jpeg">
+            <!-- Tab Navigation -->
+            <ul class="nav nav-tabs" id="input-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload-pane" type="button" role="tab" aria-controls="upload-pane" aria-selected="true">Upload Image</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="draw-tab" data-bs-toggle="tab" data-bs-target="#draw-pane" type="button" role="tab" aria-controls="draw-pane" aria-selected="false">Draw Character</button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content pt-3" id="myTabContent">
+            <!-- Tab content -->
+            <div class="tab-content" id="inputTabContent">
+                <!-- Upload Pane -->
+                <div class="tab-pane fade show active p-4" id="upload-pane" role="tabpanel" aria-labelledby="upload-tab-btn">
+                    <div class="mb-3">
+                        <label for="image-upload" class="form-label">Choose an Image (PNG, JPG)</label>
+                        <input class="form-control" type="file" id="image-upload" accept="image/png, image/jpeg">
+                    </div>
+                    <div class="text-center">
+                        <img id="image-preview" src="#" alt="Your image" class="d-none"/>
+                    </div>
+                </div>
+                <!-- Draw Pane -->
+                <div class="tab-pane fade p-4" id="draw-pane" role="tabpanel" aria-labelledby="draw-tab-btn">
+                    <div class="text-center">
+                        <p class="text-muted small mb-2">Draw a single character in the box below. Keep it centered.</p>
+                        <canvas id="drawing-canvas" width="280" height="280"></canvas>
+                        <div class="mt-3">
+                            <button class="btn btn-secondary btn-sm" id="clear-canvas-btn">Clear</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="text-center">
-                <img id="image-preview" src="#" alt="Your image" class="d-none"/>
-            </div>
+            <!-- Shared controls -->
+            <div class="card-body border-top">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" id="predict-btn" disabled>Predict Character</button>
+                </div>
 
-            <div class="d-grid gap-2 mt-3">
-                <button class="btn btn-primary" id="predict-btn" disabled>2. Predict Character</button>
-            </div>
-
-            <div id="prediction-output" class="text-center mt-4 d-none">
-                <div id="prediction-result" class="result-box text-success"></div>
-                <div id="confidence-score" class="text-muted"></div>
+                <div id="prediction-output" class="text-center mt-4 d-none">
+                    <div id="prediction-result" class="result-box text-success"></div>
+                    <div id="confidence-score" class="text-muted"></div>
+                </div>
             </div>
         </div>
 
@@ -58,6 +87,8 @@
         </footer>
     </div>
 
+    <!-- Bootstrap JS (needed for tabs) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Local JS -->
     <script src="/static/js/script.js"></script>
 </body>
