@@ -134,6 +134,8 @@ cython_debug/
 *.model
 *.pb
 *.keras
+dataset/
+old models/
 
 # Generated media and reports
 /training_history.png
